@@ -1,0 +1,182 @@
+-------------------------------------------------------------------------------
+A. Notable Obstacles
+-------------------------------------------------------------------------------
+1. I initially forgot to check for invalid inputs like negative values for n or for when pos was greater than n in rotateLeft
+
+2. Many of my functions were attempting to access array indexes that were out of bounds.
+
+-------------------------------------------------------------------------------
+B. Test Cases
+-------------------------------------------------------------------------------
+
+appendToAll:
+
+    string people[5] = { "dianne", "fiona", "ed", "xavier", "greg" };
+    appendToAll(people, 5, "!") -- All values modified
+    appendToAll(people, 0, "!!") -- No values modified
+    appendToAll(people, 3, "!!") -- Some values modified
+    appendToAll(people, -5, "!!") -- Value of n is invalid
+    
+lookup:
+
+    string people2[5] = { "dianne", "fiona", "ed", "xavier", "greg" };
+    lookup(people2, 5, "ed") -- Succesful search within full array
+    lookup(people2, 2, "ed") -- Unsuccesful search within a part of array
+    lookup(people2, 5, "david") -- Unsuccessful search within full array
+    lookup(people2, 5, "fiona") -- Sucessful search within part of array
+    lookup(people2, -3, "ed") -- Value of n is invalid
+    lookup(people2, 0, "ed") -- Searching 0 elements
+    lookup(people2, 0, "Ed") -- Test for capitalization
+    
+ positionOfMax:
+
+    string h[7] = { "greg", "gavin", "ed", "", "xavier", "eleni", "fiona" };
+    positionOfMax(h, 7) -- Only 1 max value in array
+    string people3[5] = {"ed","ed","ed","ed","ed"};
+    positionOfMax(people3, 5) -- All vlaues in array are same
+    string people5[5] = {"al","al","ed","ed","ed"};
+    positionOfMax(people5, 5) -- Last few values in array are same
+    string people6[7] = {"al","ed","ed","al","ed","a","a"};
+    positionOfMax(people6, 7) -- Some values in array are same
+    positionOfMax(h, 4) -- Search only part of array
+    positionOfMax(h, -7) -- Invalid value of n
+    positionOfMax(h, 0) -- Search within no part of array
+    string people7[7] = {"al","Ed","Ed","al","ed","a","a"};
+    positionOfMax(people7, 7) -- Test capitalization
+    positionOfMax(people7, 1) -- Find max of just 1 array index
+
+rotateLeft:
+
+    string politician[5] = { "eleni", "dianne", "fiona", "kevin", "gavin" };
+    rotateLeft(politician, 5, 1) -- All inputs valid
+    rotateLeft(politician, -4, 1) -- Value of n is invalid
+    rotateLeft(politician, 5, -4) -- Value of pos is less than 0
+    rotateLeft(politician, -5, -4) -- Value of pos and n are invalid
+    rotateLeft(politician, 5, 34) -- Value of pos is greater than n
+    rotateLeft(politician, 5, 5) -- Value of pos is same as n
+    rotateLeft(politician, 0, 0) -- Value of pos and n are 0
+    string politician2[6] = { "eleni", "dianne", "obama", 
+    						  "fiona", "kevin", "gavin" };
+    rotateLeft(politician2, 5, 2) -- Rotate only part of array
+    string politician3[6] = { "eleni", "dianne", "obama", 
+    						  "fiona", "kevin", "gavin" };
+    rotateLeft(politician3, 1, 0) -- When only 1 element is rotated
+    rotateLeft(politician3, 6, 5) -- pos points to last element
+
+countRuns:
+
+    string d[9] = {"xavier", "betty", "john", 
+                   "john"  , "ed"   , "ed", 
+                   "ed"    , "john" , "john"};
+
+    string letters[16] = {"a", "a", "c", "d",
+                          "a", "a", "a", "a",
+                          "x", "x", "y", "y",
+                          "y", "b", "b", "c"};
+
+    countRuns(d,9) -- Normal case
+    countRuns(letters,16) -- Normal case
+    countRuns(d,-3) -- Value of n is invalid
+    countRuns(d,0) -- Value of n is 0
+    countRuns(d,1) -- Value of n is 1
+    string a[5] = {"","","w","",""};
+    countRuns(a,5) -- Array begins with blank string
+
+flip:
+
+    string folks[6] = { "betty" , "john" , "", 
+                        "xavier", "kevin", "dianne" };
+    string people4[5] = { "dianne", "fiona", "ed", "xavier", "greg" };
+ 
+    flip(folks,6) -- Flip full array (Even number of elements)
+    flip(folks,4) -- Flip part of array
+    flip(people4,5) -- Flip full array (odd number of elements)
+    flip(people4,-3) -- Value of n is invalid
+    string people8[5] = { "dianne", "fiona", "ed", "xavier", "greg" };
+    flip(people8, 0) -- Flip nothing
+
+differ:
+    
+    string folks1[6] = { "betty", "john", "", "xavier", "kevin", "dianne" };
+    string folks2[6] = { "betty", "john", "", "xavier", "kevin", "dianne" };
+    string group[5] = { "betty", "john", "dianne", "", "xavier" };
+    differ(folks1, 6, group, 5) -- Comparing both arrays
+    differ(folks1, 2, group, 2) -- Comparing part of the arrays
+    differ(folks1, 2, group, 1) -- a2 ends before a difference is found
+    differ(folks1,6,folks2,6) -- No difference
+    differ(folks1, -2, group, 5) -- Invalid value of n1
+    differ(folks1, 6, group, -5) -- Invalid value of n2
+    differ(folks1, -6, group, -5) -- n1 and n2 invalid
+    differ(folks1, 0, group, 1) -- n1 is 0
+    differ(folks1, 1, group, 0) -- n2 is 0
+    differ(folks1, 0, group, 0) -- m1 and n2 are 0
+    
+
+subsequence:
+
+    string names[10] = { "eleni", "gavin", "kevin", "greg", "betty", "fiona" };
+    string names1[10] = { "gavin", "kevin", "greg" };
+    subsequence(names, 6, names1, 3) -- subsequence exists
+    string names2[10] = { "eleni", "greg" };
+    subsequence(names, 5, names2, 2) -- subsequence does not exist
+    subsequence(names, -6, names1, 3) -- n1 is invalid
+    subsequence(names, 6, names1, -3) -- n2 is invalid
+    subsequence(names, -6, names1, -3) -- n1 and n2 are invalid
+    subsequence(names, 0, names1, 3) -- n1 is 0
+    subsequence(names, 6, names1, 0) -- n2 is 0
+    subsequence(names, 0, names1, 0) -- n1 and n2 are 0
+
+lookupAny:
+
+    string names3[6] = { "eleni", "gavin", "kevin", "greg", "betty", "fiona" };
+    string set1[5] = { "dianne", "betty", "greg", "gavin", "ed"};
+    lookupAny(names3, 6, set1, 5) -- Successful search. Goes through both arrays completely
+    string set2[2] = { "xavier", "ed" };
+    lookupAny(names3, 6, set2, 2) -- Unsuccessful search
+    lookupAny(names3, 6, set1, 1) -- Unsuccessful search. Only checks with first element of a2
+    lookupAny(set1, 4, set2, 2) -- Unsuccessful search. Only checks first 5 elements of a1
+    lookupAny(names3, -6, set1, 5) -- n1 is invalid
+    lookupAny(names3, 6, set1, -5) -- n2 is invalid
+    lookupAny(names3, -6, set1, -5) -- n1 and n2 are invalid
+    lookupAny(names3, 0, set1, 5) -- n1 is 0
+    lookupAny(names3, 6, set1, 0) -- n2 is 0
+    lookupAny(names3, 0, set1, 0) -- n1 and n2 are 0
+
+
+divide:
+
+    string candidate[6] = { "dianne", "fiona", "gavin", "xavier", "ed", "betty" };
+    divide(candidate, 6, "eleni") -- divider doesnt exist in array
+    string candidate2[4] = { "gavin", "kevin", "fiona", "john" };
+    divide(candidate2, 4, "john") -- divider exists in array
+    divide(letters, 16, "z") -- all items are less than divider
+    divide(candidate, 6, "a") -- all items are more than divider
+    divide(candidate, -6, "eleni") -- Invalid value of n
+    string letters2[5] = {"a","d","e","b","a"};
+    divide(letters2, 4, "c") -- Only divide part of array
+    divide(candidate, 0, "eleni") -- n is 0
+    string letters3[6] = {"e", "f", "g",
+                          "a", "d", "d"};
+    divide(letters3, 6, "d") -- divider exists in array multiple times
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

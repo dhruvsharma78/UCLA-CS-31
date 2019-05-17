@@ -1,0 +1,224 @@
+QUESTION 1a
+
+int main(){
+
+    int arr[3] = { 5, 10, 15 };
+    int* ptr = arr;
+
+    *ptr = 10;          // set arr[0] to 10
+    *(ptr + 1) = 20;      // set arr[1] to 20
+    ptr += 2;
+    ptr[0] = 30;        // set arr[2] to 30
+
+    while (ptr >= arr){
+        cout << *ptr << endl;    // print values
+        ptr--;
+    }
+
+}
+
+QUESTION 1b
+
+The problem with the findMax function is that it makes a copy 
+of the pointer it recieves from the function call.
+Therefore only the COPY of the pointer is set to point to the
+array element with the maximum value.
+The way to fix this is to make the function recieve a reference to
+the pointer that was created in the main function
+
+void findMax(int arr[], int n, int*& pToMax){
+    if (n <= 0) 
+        return;      // no items, no maximum!
+
+    pToMax = arr;
+
+    for (int i = 1; i < n; i++)
+    {
+        if (arr[i] > *pToMax)
+            pToMax = arr + i;
+    }
+}       
+
+int main(){
+    int nums[4] = { 5, 3, 15, 6 };
+    int* ptr;
+
+    findMax(nums, 4, ptr);
+    cout << "The maximum is at address " << ptr << endl;
+    cout << "It's at position " << ptr - nums << endl;
+    cout << "Its value is " << *ptr << endl;
+}
+
+QUESTION 1c
+
+This function may not work because ptr is uninitialized. The pointer does not 
+point to anything and this may cause an error. The fix is to initialize it to some 
+int value.
+
+void computeCube(int n, int* ncubed){
+    *ncubed = n * n * n;
+}
+
+int main(){
+    int value;
+    int* ptr = &value;
+    computeCube(5, ptr);
+    cout << "Five cubed is " << *ptr << endl;
+}
+
+QUESTION 1d
+
+The strequal function does not work as it compares the addresses stored in the pointers
+instead of comparing the values at those addresses. The fix to this issue is to add the 
+* operator before the pointer name wherever the values need to be compared
+
+// return true if two C strings are equal
+bool strequal(const char str1[], const char str2[]){
+
+    while (*str1 != 0  &&  *str2 != 0){
+        if (*str1 != *str2)  // compare corresponding characters
+            return false;
+        str1++;            // advance to the next character
+        str2++;
+    }
+    return *str1 == *str2;   // both ended at same time?
+}
+
+int main(){
+
+    char a[15] = "Zhou";
+    char b[15] = "Zou";
+
+    if (strequal(a,b))
+        cout << "They're the same person!\n";
+}
+
+QUESTION 1e
+
+The program makes changes to the array anArray but tries to access the array from 
+outside the getPtrToArray functions scope. When the getPtrToArray function ends, 
+the array anArray ceases to exist. Therefore the pointer that the function returns
+does not point to an array but just the memory location which may contain some other
+data at that point.
+
+QUESTION 2
+
+a. double* cat;
+b. double mouse[5];
+c. cat = mouse + 4;
+d. *cat = 25;
+e. *(mouse + 3) = 42;
+f. cat -= 3;
+g. cat[1] = 27;
+h. cat[0] = 54;
+i. bool b = (*cat == *(cat + 1));
+j. bool d = (cat == mouse);
+
+QUESTION 3a
+
+double mean(const double* scores, int numScores){
+    double tot = 0;
+    for(int i=0; i < numScores; i++){
+        tot += *(scores + i);
+    }
+    return tot/numScores;
+}
+
+QUESTION 3b
+ 
+const char* findTheChar(const char* str, char chr){
+    for(int k = 0; *(str + k) != 0; k++){
+        if(*(str+k) == chr)
+            return str+k;
+    }
+    return nullptr;
+}
+
+QUESTION 3c
+
+const char* findTheChar(const char* str, char chr){
+    while(*str){
+        if(*str == chr)
+            return str;
+        str++;
+    }
+    return nullptr;
+}
+
+QUESTION 4
+
+The program prints the following:
+3
+4
+79
+-1
+9
+22
+19
+
+Reasons:
+
+1. int* ptr = maxwell(array, &array[2]);
+    The maxwell function returns a pointer to the index of the 
+    element that is greater. In this case, elements in position 0 and 2 
+    are compared. Since the element in position 0 is greater, a pointer to 
+    position 0 is returned. Therefore ptr now points to position 0
+
+2. *ptr = -1;
+    The value in the memory location that ptr points to is changed to -1.
+    Position 0 of array now stores -1.
+
+3. ptr += 2;
+    The pointer is moved forward by 2 elements of the array.
+    ptr now points to the (0+2)th position.
+    ptr now points to position 2.
+
+4. ptr[1] = 9;
+    As ptr points to position 2 of array, ptr[0] represents array[2]
+    Therefore ptr[1] represents array[3].
+    The value in the memory locaation that ptr points to is changed to 9.
+    Position 3 of array now stores 9.
+
+5. *(array+1) = 79;
+    array points to array[0].
+    array+1 will point to array[1]
+    The value in the memory locaation that array+1 points to is changed to 79.
+    Position 1 of array now stores 79.
+
+6. cout << &array[5] - ptr << endl;
+    &array[5] generates a pointer to the element in position 5 of array.
+    ptr points to the element is position 2 of array.
+    5-2 = 3 and therefore 3 is printed
+
+7. swap1(&array[0], &array[1]);
+    This function flips the elements the pointers point to.
+    However this only takes effect within the swap1 function as the pointers are 
+    passed by value.
+    This function makes no changes to the array.
+
+8. swap2(array, &array[2]);
+    The function uses the * operator before the pointer name in order to swap
+    the values in the array indexes that the pointers point to.
+    Therefore the elements in position 0 and position 2 are swapped.
+    Position 0 of arrray now stores 4.
+    Position 2 of element now stores -1.
+
+9. The array is now printed. At this point the elements in the array are:
+    4, 79, -1, 9, 22, 19 
+
+QUESTION 5
+
+void removeS(char* str){
+    while(*str){
+        if(*str == 'S' || *str == 's'){
+            char* temp = str;t
+            while(*(temp + 1)){
+                *temp = *(temp + 1);
+                temp++;
+            }
+            *temp = 0;
+        }else{
+            str++;
+        }
+    }
+}

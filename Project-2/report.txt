@@ -1,0 +1,29 @@
+A.
+
+I had to go over the program spec many times to find small errors. I made small mistakes like with the 3 hyphens and spelling mistakes with the error messages.
+
+I also copied the "cout.precision(1)" line from the previous project and couldn't figure out why my code would round off the final cost to 1 decimal place. It took me a while to realize that i had to change the precision to 2
+
+
+B.
+
+Odometer start reading is negative (-100,200,5,"Elon",y,11)
+Odometer end reading is negative (100,-200,5,"Elon",y,11)
+Both odometer readings are negative (-100,-200,5,"Elon",y,11)
+Rental days are negative (100,200,-5,"Elon",y,11)
+Customer name is blank (100,200,5,"",y,11)
+Not entering "y" or "n" (100,200,5,"Elon",YES,11)
+Month less than 1 (100,200,5,"Elon",y,0)
+Month greater than 12 (100,200,5,"Elon",y,36)
+Regular car during non winter months for less than 100 miles (100,183,5,"Elon",n,11)
+Regular car during non winter months for 101 - 400 miles (100,278,5,"Elon",n,11)
+Regular car during non winter months for more than 400 miles (100,509,5,"Elon",n,11)
+Regular car during winter months for less than 100 miles (100,183,5,"Elon",n,1)
+Regular car during winter months for 101 - 400 miles (100,278,5,"Elon",n,1)
+Regular car during winter months for more than 400 miles (100,509,5,"Elon",n,1)
+Luxury car during non winter months for less than 100 miles (100,183,5,"Elon",y,11)
+Luxury car during non winter months for 101 - 400 miles (100,278,5,"Elon",y,11)
+Luxury car during non winter months for more than 400 miles (100,509,5,"Elon",y,11)
+Luxury car during winter months for less than 100 miles (100,183,5,"Elon",y,1)
+Luxury car during winter months for 101 - 400 miles (100,278,5,"Elon",y,1)
+Luxury car during winter months for more than 400 miles (100,509,5,"Elon",y,1)

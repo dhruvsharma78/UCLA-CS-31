@@ -1,0 +1,136 @@
+
+-------------------------------------------------------------------------------
+A. Notable Obstacles
+-------------------------------------------------------------------------------
+1. I attempted to solve the entire project in one attempt and that did not work. My program would only work for some test cases and I would have to individually take care of each issue that popped up and I could never find a solution that took care of all possible cases. I then broke the problem down into smaller pieces, as suggested in the FAQ. This way I was able to find a solution that worked for all possible cases.
+
+2. I didn't read the project spec correctly and therefore misunderstood many of the semantics of a poll data string and also what we were required to do for the project. After using the provided tester I found many errors and had to go over the project spec again and only then I realized that I had made some silly mistakes.
+
+-------------------------------------------------------------------------------
+B. Design of Program - Pseudocode
+-------------------------------------------------------------------------------
+bool isValidPartyResult(string partyResult)
+	if partyResult is 2 characters long
+		if first character is digit and second is alpha
+			return true
+		else return false
+	if partyResult is 3 characters long
+		if first and second characters are digits and third is alpha
+			return true
+		else return false
+	return false
+
+bool isValidStateForecast(string stateForecast)
+	if length of stateForecast is 2 or more
+		Convert stateForecast to uppercase
+	else
+		return false
+
+	Check if first 2 characters are valid state codes
+		return false if not
+
+	loop through every character of stateForecast
+		if current character is a space
+			return false
+
+		if current character is a digit
+			increment count of continuous digits
+		if count of continuous digits is more than 2
+			return false
+
+		if current character is an alphabet
+			reset count of continuous digits
+			check if substr of current char and previous one or 2 is a valid Party result
+				if both are invalid
+					return false
+
+
+	if last character is digit
+		return false
+
+	return true
+
+bool hasProperSyntax(string pollData)
+	if string is blank
+		return true
+	if string begins or ends with a comma
+		return false
+	loop through characters of string
+		find comma and note point as end of stateForecast. If end of string reached, use end of string as end of stateForecast
+			extract individual stateForecast
+			check if valid stateForecast
+			set start of next stateForecast to end of current stateForecast
+
+	return true
+
+int tallySeats(string pollData, char party, int& seatTally)
+	Convert pollData to all uppercase
+	Convert party to uppercase
+
+	if hasProperSyntax(pollData) returns false
+		return 1
+	if party is not an aplhabet
+		return false
+
+	loop through each character of pollData
+		if current character is digit
+			add to temporary count
+		if current character is same as party
+			add temporary count to seatTally
+			reset seatTally
+		if current character is anything else
+			reset seatTally
+
+	return 0
+
+-------------------------------------------------------------------------------
+C. Testing Cases
+-------------------------------------------------------------------------------
+hasProperSyntax("") -- Check for blank string
+hasProperSyntax(" ") -- Check for ' ' pollData
+hasProperSyntax("CA") -- Check is only a single state code, without party results works as pollData
+hasProperSyntax("ca") -- Check for case
+hasProperSyntax("cA") -- Check for case
+hasProperSyntax("Ca") -- Check for case
+hasProperSyntax("CF") -- Check invalid state code
+hasProperSyntax("CA1") -- Invalid state forecast (no party code)
+hasProperSyntax("CAD")) -- Invalid state forecast (no digits)
+hasProperSyntax("CA1D") -- Valid state forecast (1 digit followed by 1 char party code)
+hasProperSyntax("CA12") -- Invalid state forecast (no party code)
+hasProperSyntax("CA12D") -- Valid state forecast (2 digits followed by 1 char party code)
+hasProperSyntax("CA55d") -- Check for case of party code
+hasProperSyntax("CA1D1R") -- Multiple single digit party results
+hasProperSyntax("CA1D10R") -- One single digit state forecast, One double digit state forecast
+hasProperSyntax("CA10D10R") -- Multiple double digit state forecasts
+hasProperSyntax("CA1D,NY12D") -- Multiple valid state forecasts
+hasProperSyntax("CA1D,Ny,ct12") -- 2 Valid state forecasts and 1 invalid forecast
+hasProperSyntax(",CA1D,Ny,ct12D") -- Begin with comma
+hasProperSyntax("CA1D,Ny,ct12D,") -- End with comma
+hasProperSyntax("CA1D,Ny,ct12 D") -- Space betwwen party result and party code
+hasProperSyntax("CA1D,Ny, ct12D") -- Space betwwen state forecasts
+hasProperSyntax("CA1D,N y,ct12D") -- Space between state code
+hasProperSyntax("CA 1D,Ny,ct12D") -- Space between state code and party results
+hasProperSyntax("CA1D,Ny ,ct12D") -- Space after state forecast
+hasProperSyntax(" CA1D,Ny,ct12D") -- Space in start of pollData
+hasProperSyntax("CA1D,Ny,ct12D ") -- Space at end of pollData
+hasProperSyntax("CT5D,NY9R17D1I,VT,ne3r00D") -- Valid pollData
+hasProperSyntax("CT5D,NY9R17D1I,VT,ne3rD") -- Invalid pollData
+hasProperSyntax("MA9D,KS4R")  &&  hasProperSyntax("KS4R,MA9D")
+hasProperSyntax("MA9D,,KS4R") == hasProperSyntax("KS4R,,MA9D") --  Test for blank state forecast (invalid)
+
+
+tallySeats("CT5D,NY9R17D1I,VT,ne3r00D", 'D', seats) -- Uppercase party code
+
+tallySeats("CT5D,NY9R17D1I,VT,ne3r00D", 'd', seats) -- Lowercase party code
+
+tallySeats("", 'd', seats) -- Empty string
+
+tallySeats("CT5D,NY9R17D1I,VT,ne3r00D", '2', seats) -- Invalid party code
+
+tallySeats("CT5D,NY9R17D1I,VT50,ne3r00D", 'd', seats) -- Invalid pollData
+
+tallySeats("CT5D,NY9R17D1I,VT50,ne3r00D", '?', seats) -- Invalid pollData and party code
+
+tallySeats("CT0D,NY9R00D1I,VT,ne3r00D", 'd', seats) -- No votes
+
+tallySeats("CT,Ny,vT,ne", 'd', seats) -- No party results
