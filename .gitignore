@@ -1,0 +1,7 @@
+# Ignore backup directory
+Backup/
+
+#ignore .DS
+.DS_Store
+
+*~
